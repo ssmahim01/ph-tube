@@ -53,6 +53,21 @@ const displayVideos = (videos) => {
     const videosContainer = document.getElementById('videos');
     videosContainer.innerHTML = "";
 
+    if(videos.length == 0){
+      videosContainer.classList.remove('grid');
+      videosContainer.innerHTML = `
+      <div class="min-h-[250px] flex flex-col justify-center items-center gap-5">
+      <img src="assets/Icon.png"/>
+      
+      <h2 class="text-center text-xl font-bold">No Content Here in this Category</h2>
+      </div>
+      `;
+      return;
+    }
+    else{
+      videosContainer.classList.add('grid');
+    }
+
     videos.forEach((video) => {
        const card = document.createElement('div');
        card.classList = "card card-compact";
