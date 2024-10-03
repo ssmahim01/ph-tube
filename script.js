@@ -59,7 +59,7 @@ const displayDetails = (video) => {
    modalContent.innerHTML = `
    <div class="space-y-4 pb-5">
    <img class="w-full h-full object-cover rounded-lg" src="${video.thumbnail}"/>
-   <p class="font-bold">${video.description}</p>
+   <p class="text-gray-600 font-semibold">${video.description}</p>
    </div>
    `
    document.getElementById('customModal').showModal();
