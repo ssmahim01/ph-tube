@@ -20,8 +20,8 @@ const loadCategories = () => {
 
 /* Create Load Videos */
 
-const loadVideos = () => {
-   fetch('https://openapi.programming-hero.com/api/phero-tube/videos')
+const loadVideos = (searchText = "") => {
+   fetch(`https://openapi.programming-hero.com/api/phero-tube/videos?title=${searchText}`)
    .then(response => response.json())
    .then(data => displayVideos(data.videos))
    .catch(error => console.log(error))
@@ -140,6 +140,10 @@ const removeActiveBtn = () => {
       btn.classList.remove('active-btn');
    }
 };
+
+document.getElementById('search-input').addEventListener('keyup', (event) => {
+   loadVideos(event.target.value);
+});
 
 loadCategories();
 loadVideos();
