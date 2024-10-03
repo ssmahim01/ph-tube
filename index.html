@@ -47,6 +47,19 @@
         <section class="w-11/12 mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 py-10" id="videos"></section>
     </main>
 
+    <button id="show-modal-data" class="btn hidden" onclick="customModal.showModal()">open modal</button>
+    <dialog id="customModal" class="modal modal-bottom sm:modal-middle">
+    <div class="modal-box">
+        <div id="modal-content">
+
+        </div>
+        <form method="dialog">
+            <button class="btn btn-primary">Close</button>
+        </form>
+        </div>
+    </div>
+    </dialog>
+
     <script src="script.js"></script>
 </body>
 </html>

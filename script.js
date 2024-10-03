@@ -18,6 +18,8 @@ const loadCategories = () => {
    .catch(error => console.log(error))
 };
 
+/* Create Load Videos */
+
 const loadVideos = () => {
    fetch('https://openapi.programming-hero.com/api/phero-tube/videos')
    .then(response => response.json())
@@ -25,11 +27,42 @@ const loadVideos = () => {
    .catch(error => console.log(error))
 };
 
+/* Create Load Category Videos */
+
 const loadCategoryVideos = (id) => {
    fetch(`https://openapi.programming-hero.com/api/phero-tube/category/${id}`)
    .then(response => response.json())
-   .then(data => displayVideos(data.category))
+   .then(data => {
+
+      removeActiveBtn();
+      const activeBtn = document.getElementById(`btn-${id}`);
+      activeBtn.classList.add('active-btn');
+      displayVideos(data.category);
+   })
    .catch(error => console.log(error))
+};
+
+/* Create Load Details */
+
+const loadDetails = async(videoId) => {
+   const url = `https://openapi.programming-hero.com/api/phero-tube/video/${videoId}`;
+   const response = await fetch(url);
+   const data = await response.json();
+   displayDetails(data.video);
+};
+
+/* Create Display Details */
+
+const displayDetails = (video) => {
+   const modalContent = document.getElementById('modal-content');
+
+   modalContent.innerHTML = `
+   <div class="space-y-4 pb-5">
+   <img class="w-full h-full object-cover rounded-lg" src="${video.thumbnail}"/>
+   <p class="font-bold">${video.description}</p>
+   </div>
+   `
+   document.getElementById('customModal').showModal();
 };
 
 /* Create Display Categories */
@@ -43,11 +76,13 @@ const displayCategories = (categories) => {
        button.innerText = item.category;
       const div = document.createElement('div');
       div.innerHTML = `
-      <button onclick="loadCategoryVideos(${item.category_id})" class="btn">${item.category}</button>
+      <button id="btn-${item.category_id}" onclick="loadCategoryVideos(${item.category_id})" class="btn btn-category">${item.category}</button>
       `;
        categoryContainer.append(div);
     });
 };
+
+/* Create Display Videos */
 
 const displayVideos = (videos) => {
     const videosContainer = document.getElementById('videos');
@@ -85,16 +120,26 @@ const displayVideos = (videos) => {
         <h2 class="font-bold">${video.title}</h2>
         <div class="flex items-center gap-2">
         <p class="text-gray-400 font-medium">${video.authors[0].profile_name}</p>
+
         ${video.authors[0].verified == true? `<img class="w-5" src="https://img.icons8.com/?size=48&id=D9RtvkuOe31p&format=png"/>`:""}
         </div>
+        <p><button onclick="loadDetails('${video.video_id}')" class="btn btn-sm btn-error text-white mt-2">Details</button></p>
         </div>
         </div>
      </div>
        `
-
        videosContainer.append(card);
     });
-}
+};
+
+/* Remove Active Buttons */
+
+const removeActiveBtn = () => {
+   const buttons = document.getElementsByClassName('btn-category');
+   for(let btn of buttons){
+      btn.classList.remove('active-btn');
+   }
+};
 
 loadCategories();
 loadVideos();
